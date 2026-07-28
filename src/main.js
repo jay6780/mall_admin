@@ -4,7 +4,9 @@ import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
+import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+import enLocale from 'element-ui/lib/locale/lang/en'
+import ElementLocale from 'element-ui/lib/locale'
 import VCharts from 'v-charts'
 
 import '@/styles/index.scss' // global css
@@ -15,11 +17,30 @@ import store from './store'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import { translate, translateTitle } from '@/utils/i18n'
 
-Vue.use(ElementUI, { locale })
+Vue.prototype.$t = function(key) {
+  return translate(key, this.$store ? this.$store.getters.language : 'zh')
+}
+
+Vue.prototype.$translateTitle = function(title) {
+  return translateTitle(title, this.$store ? this.$store.getters.language : 'zh')
+}
+
+const language = store.getters.language || 'zh'
+ElementLocale.use(language === 'en' ? enLocale : zhLocale)
+
+Vue.use(ElementUI, { locale: language === 'en' ? enLocale : zhLocale })
 Vue.use(VCharts)
 
 Vue.config.productionTip = false
+
+store.watch(state => state.app.language, (lang) => {
+  ElementLocale.use(lang === 'en' ? enLocale : zhLocale)
+  setTimeout(() => {
+    window.location.reload()
+  }, 0)
+}, { sync: true })
 
 new Vue({
   el: '#app',
