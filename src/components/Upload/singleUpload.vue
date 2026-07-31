@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-upload
+      name="file"
       :action="useOss ? ossUploadUrl : minioUploadUrl"
       :data="useOss ? dataObj : null"
       list-type="picture"
@@ -10,6 +11,7 @@
       :before-upload="beforeUpload"
       :on-remove="handleRemove"
       :on-success="handleUploadSuccess"
+      :on-error="handleUploadError"
       :on-preview="handlePreview"
     >
       <el-button size="small" type="primary">点击上传</el-button>
@@ -72,7 +74,7 @@ export default {
       dialogVisible: false,
       useOss: false, //使用oss->true;使用MinIO->false
       ossUploadUrl: "http://macro-oss.oss-cn-shenzhen.aliyuncs.com",
-      minioUploadUrl: "http://144.172.116.215:8080/minio/upload"
+      minioUploadUrl: "/minio/upload"
     };
   },
   methods: {
@@ -119,6 +121,14 @@ export default {
       }
       this.fileList.push({ name: file.name, url: url });
       this.emitInput(this.fileList[0].url);
+    },
+    handleUploadError(err, file) {
+      console.error("Upload error:", err, file);
+      this.$message({
+        message: "上传失败，请检查上传接口和文件格式",
+        type: "error",
+        duration: 3000
+      });
     }
   }
 };

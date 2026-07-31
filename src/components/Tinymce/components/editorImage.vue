@@ -11,6 +11,7 @@
     <el-dialog append-to-body :visible.sync="dialogVisible">
       <el-upload
         class="editor-slide-upload"
+        name="file"
         :action="useOss ? ossUploadUrl : minioUploadUrl"
         :data="useOss ? dataObj : null"
         :multiple="true"
@@ -19,6 +20,7 @@
         list-type="picture-card"
         :on-remove="handleRemove"
         :on-success="handleSuccess"
+        :on-error="handleUploadError"
         :before-upload="beforeUpload"
       >
         <el-button size="small" type="primary">点击上传</el-button>
@@ -55,7 +57,7 @@ export default {
       },
       useOss: false, //使用oss->true;使用MinIO->false
       ossUploadUrl: "http://macro-oss.oss-cn-shenzhen.aliyuncs.com",
-      minioUploadUrl: "http://144.172.116.215:8080/minio/upload"
+      minioUploadUrl: "/minio/upload"
     };
   },
   methods: {
@@ -103,6 +105,14 @@ export default {
           return;
         }
       }
+    },
+    handleUploadError(err, file) {
+      console.error("Upload error:", err, file);
+      this.$message({
+        message: "图片上传失败，请检查上传接口是否可用",
+        type: "error",
+        duration: 3000
+      });
     },
     beforeUpload(file) {
       const _self = this;
