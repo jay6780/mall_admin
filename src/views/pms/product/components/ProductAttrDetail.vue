@@ -49,7 +49,7 @@
                     type="text"
                     class="littleMarginLeft"
                     @click="handleRemoveProductAttrValue(idx, index)"
-                    >删除
+                    >{{ $t("product.attr.remove") }}
                   </el-button>
                 </div>
               </el-checkbox-group>
@@ -61,7 +61,7 @@
               <el-button
                 class="littleMarginLeft"
                 @click="handleAddProductAttrValue(idx)"
-                >增加</el-button
+                >{{ $t("product.attr.add") }}</el-button
               >
             </div>
           </div>

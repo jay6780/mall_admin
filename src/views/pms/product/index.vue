@@ -4,14 +4,14 @@
       <div class="filter-header">
         <div class="filter-title">
           <i class="el-icon-search"></i>
-          <span>筛选搜索</span>
+          <span>{{ $t("pms.product.filterSearch") }}</span>
         </div>
         <div class="filter-actions">
           <el-button @click="handleResetSearch()" size="small">
-            重置
+            {{ $t("pms.product.reset") }}
           </el-button>
           <el-button @click="handleSearchList()" type="primary" size="small">
-            查询结果
+            {{ $t("pms.product.search") }}
           </el-button>
         </div>
       </div>
@@ -22,21 +22,21 @@
           size="small"
           label-width="140px"
         >
-          <el-form-item label="输入搜索：">
+          <el-form-item :label="$t('pms.product.inputSearch')">
             <el-input
               style="width: 203px"
               v-model="listQuery.keyword"
-              placeholder="商品名称"
+              :placeholder="$t('pms.product.namePlaceholder')"
             ></el-input>
           </el-form-item>
-          <el-form-item label="商品货号：">
+          <el-form-item :label="$t('pms.product.productSn') + '：'">
             <el-input
               style="width: 203px"
               v-model="listQuery.productSn"
-              placeholder="商品货号"
+              :placeholder="$t('pms.product.searchPlaceholder')"
             ></el-input>
           </el-form-item>
-          <el-form-item label="商品分类：">
+          <el-form-item :label="$t('pms.product.productCategory') + '：'">
             <el-cascader
               clearable
               v-model="selectProductCateValue"
@@ -44,7 +44,7 @@
             >
             </el-cascader>
           </el-form-item>
-          <el-form-item label="商品品牌：">
+          <el-form-item :label="$t('pms.product.productBrand') + '：'">
             <el-select
               v-model="listQuery.brandId"
               :placeholder="$t('pms.product.chooseBrand')"
@@ -59,10 +59,10 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="上架状态：">
+          <el-form-item :label="$t('pms.product.publishStatusLabel')">
             <el-select
               v-model="listQuery.publishStatus"
-              placeholder="全部"
+              :placeholder="$t('common.all')"
               clearable
             >
               <el-option
@@ -74,10 +74,10 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="审核状态：">
+          <el-form-item :label="$t('pms.product.verifyStatus') + '：'">
             <el-select
               v-model="listQuery.verifyStatus"
-              placeholder="全部"
+              :placeholder="$t('common.all')"
               clearable
             >
               <el-option
@@ -94,9 +94,9 @@
     </el-card>
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
-      <span>数据列表</span>
+      <span>{{ $t("pms.product.dataList") }}</span>
       <el-button class="btn-add" @click="handleAddProduct()" size="mini">
-        添加
+        {{ $t("pms.product.add") }}
       </el-button>
     </el-card>
     <div class="table-container">
@@ -113,30 +113,46 @@
           width="60"
           align="center"
         ></el-table-column>
-        <el-table-column label="编号" width="100" align="center">
+        <el-table-column
+          :label="$t('pms.product.no')"
+          width="100"
+          align="center"
+        >
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="商品图片" width="120" align="center">
+        <el-table-column
+          :label="$t('pms.product.image')"
+          width="120"
+          align="center"
+        >
           <template slot-scope="scope"
             ><img style="height: 80px" :src="scope.row.pic"
           /></template>
         </el-table-column>
-        <el-table-column label="商品名称" align="center">
+        <el-table-column :label="$t('pms.product.name')" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.name }}</p>
-            <p>品牌：{{ scope.row.brandName }}</p>
+            <p>{{ $t("pms.product.brand") }}：{{ scope.row.brandName }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="价格/货号" width="120" align="center">
+        <el-table-column
+          :label="$t('pms.product.priceSn')"
+          width="120"
+          align="center"
+        >
           <template slot-scope="scope">
-            <p>价格：￥{{ scope.row.price }}</p>
-            <p>货号：{{ scope.row.productSn }}</p>
+            <p>{{ $t("pms.product.price") }}：￥{{ scope.row.price }}</p>
+            <p>{{ $t("pms.product.productSn") }}：{{ scope.row.productSn }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="标签" width="140" align="center">
+        <el-table-column
+          :label="$t('pms.product.tag')"
+          width="140"
+          align="center"
+        >
           <template slot-scope="scope">
             <p>
-              上架：
+              {{ $t("pms.product.publish") }}：
               <el-switch
                 @change="handlePublishStatusChange(scope.$index, scope.row)"
                 :active-value="1"
@@ -146,7 +162,7 @@
               </el-switch>
             </p>
             <p>
-              新品：
+              {{ $t("pms.product.new") }}：
               <el-switch
                 @change="handleNewStatusChange(scope.$index, scope.row)"
                 :active-value="1"
@@ -156,7 +172,7 @@
               </el-switch>
             </p>
             <p>
-              推荐：
+              {{ $t("pms.product.recommend") }}：
               <el-switch
                 @change="handleRecommendStatusChange(scope.$index, scope.row)"
                 :active-value="1"
@@ -167,10 +183,18 @@
             </p>
           </template>
         </el-table-column>
-        <el-table-column label="排序" width="100" align="center">
+        <el-table-column
+          :label="$t('pms.product.sort')"
+          width="100"
+          align="center"
+        >
           <template slot-scope="scope">{{ scope.row.sort }}</template>
         </el-table-column>
-        <el-table-column label="SKU库存" width="100" align="center">
+        <el-table-column
+          :label="$t('pms.product.stock')"
+          width="100"
+          align="center"
+        >
           <template slot-scope="scope">
             <el-button
               type="primary"
@@ -180,46 +204,58 @@
             ></el-button>
           </template>
         </el-table-column>
-        <el-table-column label="销量" width="100" align="center">
+        <el-table-column
+          :label="$t('pms.product.sales')"
+          width="100"
+          align="center"
+        >
           <template slot-scope="scope">{{ scope.row.sale }}</template>
         </el-table-column>
-        <el-table-column label="审核状态" width="100" align="center">
+        <el-table-column
+          :label="$t('pms.product.verifyStatus')"
+          width="100"
+          align="center"
+        >
           <template slot-scope="scope">
-            <p>{{ scope.row.verifyStatus | verifyStatusFilter }}</p>
+            <p>{{ verifyStatusText(scope.row.verifyStatus) }}</p>
             <p>
               <el-button
                 type="text"
                 @click="handleShowVerifyDetail(scope.$index, scope.row)"
-                >审核详情
+                >{{ $t("pms.product.verifyDetail") }}
               </el-button>
             </p>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="160" align="center">
+        <el-table-column
+          :label="$t('pms.product.operate')"
+          width="160"
+          align="center"
+        >
           <template slot-scope="scope">
             <p>
               <el-button
                 size="mini"
                 @click="handleShowProduct(scope.$index, scope.row)"
-                >查看
+                >{{ $t("pms.product.view") }}
               </el-button>
               <el-button
                 size="mini"
                 @click="handleUpdateProduct(scope.$index, scope.row)"
-                >编辑
+                >{{ $t("pms.product.edit") }}
               </el-button>
             </p>
             <p>
               <el-button
                 size="mini"
                 @click="handleShowLog(scope.$index, scope.row)"
-                >日志
+                >{{ $t("pms.product.log") }}
               </el-button>
               <el-button
                 size="mini"
                 type="danger"
                 @click="handleDelete(scope.$index, scope.row)"
-                >删除
+                >{{ $t("pms.product.delete") }}
               </el-button>
             </p>
           </template>
@@ -227,7 +263,11 @@
       </el-table>
     </div>
     <div class="batch-operate-container">
-      <el-select size="small" v-model="operateType" placeholder="批量操作">
+      <el-select
+        size="small"
+        v-model="operateType"
+        :placeholder="$t('pms.product.batch')"
+      >
         <el-option
           v-for="item in operates"
           :key="item.value"
@@ -243,7 +283,7 @@
         type="primary"
         size="small"
       >
-        确定
+        {{ $t("pms.product.confirm") }}
       </el-button>
     </div>
     <div class="pagination-container">
@@ -260,14 +300,14 @@
       </el-pagination>
     </div>
     <el-dialog
-      title="编辑货品信息"
+      :title="$t('pms.product.skuTitle')"
       :visible.sync="editSkuInfo.dialogVisible"
       width="40%"
     >
-      <span>商品货号：</span>
+      <span>{{ $t("pms.product.productSn") }}：</span>
       <span>{{ editSkuInfo.productSn }}</span>
       <el-input
-        placeholder="按sku编号搜索"
+        :placeholder="$t('pms.product.skuSearchPlaceholder')"
         v-model="editSkuInfo.keyword"
         size="small"
         style="width: 50%;margin-left: 20px"
@@ -283,7 +323,7 @@
         :data="editSkuInfo.stockList"
         border
       >
-        <el-table-column label="SKU编号" align="center">
+        <el-table-column :label="$t('pms.product.skuCode')" align="center">
           <template slot-scope="scope">
             <el-input v-model="scope.row.skuCode"></el-input>
           </template>
@@ -298,27 +338,41 @@
             {{ getProductSkuSp(scope.row, index) }}
           </template>
         </el-table-column>
-        <el-table-column label="销售价格" width="80" align="center">
+        <el-table-column
+          :label="$t('pms.product.salesPrice')"
+          width="80"
+          align="center"
+        >
           <template slot-scope="scope">
             <el-input v-model="scope.row.price"></el-input>
           </template>
         </el-table-column>
-        <el-table-column label="商品库存" width="80" align="center">
+        <el-table-column
+          :label="$t('pms.product.stockQty')"
+          width="80"
+          align="center"
+        >
           <template slot-scope="scope">
             <el-input v-model="scope.row.stock"></el-input>
           </template>
         </el-table-column>
-        <el-table-column label="库存预警值" width="100" align="center">
+        <el-table-column
+          :label="$t('pms.product.lowStock')"
+          width="100"
+          align="center"
+        >
           <template slot-scope="scope">
             <el-input v-model="scope.row.lowStock"></el-input>
           </template>
         </el-table-column>
       </el-table>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="editSkuInfo.dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleEditSkuConfirm"
-          >确 定</el-button
-        >
+        <el-button @click="editSkuInfo.dialogVisible = false">{{
+          $t("common.cancel")
+        }}</el-button>
+        <el-button type="primary" @click="handleEditSkuConfirm">{{
+          $t("common.confirm")
+        }}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -364,35 +418,35 @@ export default {
       },
       operates: [
         {
-          label: "商品上架",
+          label: this.$t("pms.product.publishOn"),
           value: "publishOn"
         },
         {
-          label: "商品下架",
+          label: this.$t("pms.product.publishOff"),
           value: "publishOff"
         },
         {
-          label: "设为推荐",
+          label: this.$t("pms.product.recommendOn"),
           value: "recommendOn"
         },
         {
-          label: "取消推荐",
+          label: this.$t("pms.product.recommendOff"),
           value: "recommendOff"
         },
         {
-          label: "设为新品",
+          label: this.$t("pms.product.newOn"),
           value: "newOn"
         },
         {
-          label: "取消新品",
+          label: this.$t("pms.product.newOff"),
           value: "newOff"
         },
         {
-          label: "转移到分类",
+          label: this.$t("pms.product.transferCategory"),
           value: "transferCategory"
         },
         {
-          label: "移入回收站",
+          label: this.$t("pms.product.recycle"),
           value: "recycle"
         }
       ],
@@ -408,21 +462,21 @@ export default {
       publishStatusOptions: [
         {
           value: 1,
-          label: "上架"
+          label: this.$t("pms.product.onShelf")
         },
         {
           value: 0,
-          label: "下架"
+          label: this.$t("pms.product.offShelf")
         }
       ],
       verifyStatusOptions: [
         {
           value: 1,
-          label: "审核通过"
+          label: this.$t("pms.product.verified")
         },
         {
           value: 0,
-          label: "未审核"
+          label: this.$t("pms.product.unverified")
         }
       ]
     };
@@ -441,16 +495,14 @@ export default {
       }
     }
   },
-  filters: {
-    verifyStatusFilter(value) {
-      if (value === 1) {
-        return "审核通过";
-      } else {
-        return "未审核";
-      }
-    }
-  },
   methods: {
+    verifyStatusText(value) {
+      if (value === 1) {
+        return this.$t("pms.product.verified");
+      } else {
+        return this.$t("pms.product.unverified");
+      }
+    },
     getProductSkuSp(row, index) {
       let spData = JSON.parse(row.spData);
       if (spData != null && index < spData.length) {
@@ -534,23 +586,27 @@ export default {
         this.editSkuInfo.stockList.length <= 0
       ) {
         this.$message({
-          message: "暂无sku信息",
+          message: this.$t("pms.product.noSkuInfo"),
           type: "warning",
           duration: 1000
         });
         return;
       }
-      this.$confirm("是否要进行修改", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
+      this.$confirm(
+        this.$t("pms.product.modifyConfirm"),
+        this.$t("common.prompt"),
+        {
+          confirmButtonText: this.$t("common.confirm"),
+          cancelButtonText: this.$t("common.cancel"),
+          type: "warning"
+        }
+      ).then(() => {
         updateSkuStockList(
           this.editSkuInfo.productId,
           this.editSkuInfo.stockList
         ).then(response => {
           this.$message({
-            message: "修改成功",
+            message: this.$t("common.updateSuccess"),
             type: "success",
             duration: 1000
           });
@@ -568,7 +624,7 @@ export default {
     handleBatchOperate() {
       if (this.operateType == null) {
         this.$message({
-          message: "请选择操作类型",
+          message: this.$t("pms.product.selectOperateType"),
           type: "warning",
           duration: 1000
         });
@@ -576,17 +632,21 @@ export default {
       }
       if (this.multipleSelection == null || this.multipleSelection.length < 1) {
         this.$message({
-          message: "请选择要操作的商品",
+          message: this.$t("pms.product.selectProductToOperate"),
           type: "warning",
           duration: 1000
         });
         return;
       }
-      this.$confirm("是否要进行该批量操作?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
+      this.$confirm(
+        this.$t("pms.product.batchConfirm"),
+        this.$t("common.prompt"),
+        {
+          confirmButtonText: this.$t("common.confirm"),
+          cancelButtonText: this.$t("common.cancel"),
+          type: "warning"
+        }
+      ).then(() => {
         let ids = [];
         for (let i = 0; i < this.multipleSelection.length; i++) {
           ids.push(this.multipleSelection[i].id);
@@ -653,11 +713,15 @@ export default {
       this.listQuery = Object.assign({}, defaultListQuery);
     },
     handleDelete(index, row) {
-      this.$confirm("是否要进行删除操作?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
+      this.$confirm(
+        this.$t("pms.product.deleteConfirmProduct"),
+        this.$t("common.prompt"),
+        {
+          confirmButtonText: this.$t("common.confirm"),
+          cancelButtonText: this.$t("common.cancel"),
+          type: "warning"
+        }
+      ).then(() => {
         let ids = [];
         ids.push(row.id);
         this.updateDeleteStatus(1, ids);
@@ -681,7 +745,7 @@ export default {
       params.append("publishStatus", publishStatus);
       updatePublishStatus(params).then(response => {
         this.$message({
-          message: "修改成功",
+          message: this.$t("common.updateSuccess"),
           type: "success",
           duration: 1000
         });
@@ -693,7 +757,7 @@ export default {
       params.append("newStatus", newStatus);
       updateNewStatus(params).then(response => {
         this.$message({
-          message: "修改成功",
+          message: this.$t("common.updateSuccess"),
           type: "success",
           duration: 1000
         });
@@ -705,7 +769,7 @@ export default {
       params.append("recommendStatus", recommendStatus);
       updateRecommendStatus(params).then(response => {
         this.$message({
-          message: "修改成功",
+          message: this.$t("common.updateSuccess"),
           type: "success",
           duration: 1000
         });
@@ -717,7 +781,7 @@ export default {
       params.append("deleteStatus", deleteStatus);
       updateDeleteStatus(params).then(response => {
         this.$message({
-          message: "删除成功",
+          message: this.$t("common.deleteSuccess"),
           type: "success",
           duration: 1000
         });
