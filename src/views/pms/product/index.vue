@@ -47,7 +47,7 @@
           <el-form-item label="商品品牌：">
             <el-select
               v-model="listQuery.brandId"
-              placeholder="请选择品牌"
+              :placeholder="$t('pms.product.chooseBrand')"
               clearable
             >
               <el-option

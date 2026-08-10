@@ -16,8 +16,14 @@ service.interceptors.request.use(config => {
     config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
 
-  const currentLang = store.getters.language || 'zh'
-  config.headers['Accept-Language'] = currentLang === 'en' ? 'en' : 'zh-CN'
+  const currentLang = store.getters.language || 'en'
+  if (currentLang === 'fil') {
+    config.headers['Accept-Language'] = 'fil'
+  } else if (currentLang === 'en') {
+    config.headers['Accept-Language'] = 'en'
+  } else {
+    config.headers['Accept-Language'] = 'zh-CN'
+  }
   config.params = {
     ...(config.params || {}),
     lang: currentLang
@@ -35,7 +41,7 @@ service.interceptors.response.use(
   /**
   * code为非200是抛错 可结合自己业务进行修改
   */
-    const currentLang = store.getters.language || 'zh'
+    const currentLang = store.getters.language || 'en'
     const res = applyLocalizationToData(response.data, currentLang)
     if (res.code !== 200) {
       Message({
